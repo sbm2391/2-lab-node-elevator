@@ -10,29 +10,34 @@ class Elevator {
     this.passengers = [];
   }
   //Función para que el elevador empiece a subir y bajar
-  start(person) { 
+  start() { 
     let that = this
-    let interval = setInterval(function(){that.update(person)}, 1000)
+    let interval = setInterval(function(){that.update()}, 1000)
   }
   //Función que detiene el elevador
   stop() { 
     clearInterval(this.interval)
   }
 
-  update(person) { 
+  update() { 
    
-  
-
   if (this.requests.length > 0) {
       this.log()
       
-      if (this.floor === this.watingList[0]) {
-        this._passengersEnter(person)
-      }
-
-      if (this.floor === this.passengers[0]) {
-        this._passengersLeave(person)
-      }
+      console.log("hola")
+      let that = this
+      this.watingList.forEach(function(person){
+      if (person.originFloor === that.floor) {
+            this._passengersEnter(person)
+        }
+      })
+      
+      this.passengers.forEach(function(person){
+        console.log(that.floor)
+        if (person.destinationFloor === this.floor) {
+          this._passengersLeave(person)
+        }
+      })
 
       if (this.floor < this.MAXFLOOR && this.direction === "up") {
         this.floorUp()
@@ -46,7 +51,7 @@ class Elevator {
         this.floorDown()
       }
     } else {
-      this.stop()
+       this.stop()
     }
   }
   _passengersEnter(person) { 
