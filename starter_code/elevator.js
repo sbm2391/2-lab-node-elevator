@@ -6,11 +6,12 @@ class Elevator {
     this.MINFLOOR   = 0;
     this.requests   = [];
   }
-
+  //Función para que el elevador empiece a subir y bajar
   start() { 
     let that = this
     let interval = setInterval(function(){that.update()}, 1000)
   }
+  //Función que detiene el elevador
   stop() { 
     clearInterval(this.interval)
   }
@@ -30,14 +31,19 @@ class Elevator {
   }
   _passengersEnter() { }
   _passengersLeave() { }
+  //Función para subir de piso en piso
   floorUp() { 
       this.floor++
   }
+  //Función para bajar de piso en piso
   floorDown() { 
-      
       this.floor--
   }
-  call() { }
+
+  call(person) { 
+    this.requests.push(person)
+  }
+  //estatus del piso y dirección
   log() { 
     console.log(`Direction: ${this.direction} | Floor: ${this.floor}`)
   }
