@@ -22,23 +22,29 @@ class Elevator {
   update() { 
    
   if (this.requests.length > 0) {
+      //imprime el piso y dirección    
       this.log()
       
-      console.log("hola")
+      /* convierte cada valor de la array en la variable person*/
       let that = this
-      this.watingList.forEach(function(person){
-      if (person.originFloor === that.floor) {
-            this._passengersEnter(person)
+      this.requests.forEach(function(person){
+      //condició para que entre una persona
+        if (person.originFloor === that.floor) {
+              that._passengersEnter(person)
+          }
+      //condició para que salga una persona
+        if (person.destinationFloor === that.floor) {
+          that._passengersLeave(person)
         }
       })
       
-      this.passengers.forEach(function(person){
-        console.log(that.floor)
-        if (person.destinationFloor === this.floor) {
-          this._passengersLeave(person)
-        }
+      this.requests.forEach(function(person){
+       // console.log(that.floor)
+      //condició para que salga una persona
+        
       })
 
+      // función para que el elevador suba y baje
       if (this.floor < this.MAXFLOOR && this.direction === "up") {
         this.floorUp()
       } else if (this.floor === this.MINFLOOR) {
@@ -57,7 +63,7 @@ class Elevator {
   _passengersEnter(person) { 
     this.passengers.push(person.destinationFloor)
     this.watingList.shift()
-    this.requests.push(person.destinationFloor)
+    this.requests.push(person)
     this.requests.shift()
     console.log(`${person.name} has enter the elevator`)
   }
@@ -77,7 +83,7 @@ class Elevator {
   }
 
   call(person) { 
-    this.requests.push(person.originFloor)
+    this.requests.push(person)
     this.watingList.push(person.originFloor)
   }
 

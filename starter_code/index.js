@@ -7,5 +7,5 @@ const helena = new Person("Helena", 5, 2)
 
 // empieza el elevador a funcionar
 elevator1.start()
-// la primera persona llama al elevador
 elevator1.call(bet)
+elevator1.call(helena)
