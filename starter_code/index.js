@@ -3,6 +3,8 @@ const Person = require('./person.js');
 
 const elevator1 = new Elevator()
 const bet = new Person("Bet", 3, 7)
+const helena = new Person("Helena", 5, 2)
 
 
-elevator1.start()
+elevator1.start(helena)
+elevator1.call(helena)
