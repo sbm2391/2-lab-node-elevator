@@ -3,6 +3,7 @@ class Elevator {
     this.floor      = 0;
     this.direction = "up";
     this.MAXFLOOR   = 10;
+    this.MINFLOOR   = 0;
     this.requests   = [];
   }
 
@@ -15,11 +16,27 @@ class Elevator {
   }
   update() { 
     this.log()
+    if (this.floor < this.MAXFLOOR && this.direction === "up") {
+      this.floorUp()
+    } else if (this.floor === this.MINFLOOR) {
+      this.direction = "up"
+      this.floorUp()
+    } else if (this.floor === this.MAXFLOOR) {
+      this.direction = "down"
+      this.floorDown()
+    } else if (this.floor > this.MINFLOOR) {
+      this.floorDown()
+    } 
   }
   _passengersEnter() { }
   _passengersLeave() { }
-  floorUp() { }
-  floorDown() { }
+  floorUp() { 
+      this.floor++
+  }
+  floorDown() { 
+      
+      this.floor--
+  }
   call() { }
   log() { 
     console.log(`Direction: ${this.direction} | Floor: ${this.floor}`)
