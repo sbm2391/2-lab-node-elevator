@@ -7,68 +7,57 @@ class Elevator {
     //properties to keep a track of everyone
     this.requests   = [];
     this.watingList = [];
-    this.passengers = [];
+    this.destinations = [];
   }
   //Función para que el elevador empiece a subir y bajar
-  start() { 
+  start(person) { 
     let that = this
-    let interval = setInterval(function(){that.update()}, 1000)
+    let interval = setInterval(function(){that.update(person)}, 1000)
   }
   //Función que detiene el elevador
   stop() { 
     clearInterval(this.interval)
   }
 
-  update() { 
-   
-  if (this.requests.length > 0) {
-      //imprime el piso y dirección    
+  update(person) { 
+ 
+    if (this.requests.length > 0) {
       this.log()
-      
-      /* convierte cada valor de la array en la variable person*/
-      let that = this
-      this.requests.forEach(function(person){
-      //condició para que entre una persona
-        if (person.originFloor === that.floor) {
-              that._passengersEnter(person)
-          }
-      //condició para que salga una persona
-        if (person.destinationFloor === that.floor) {
-          that._passengersLeave(person)
+      console.log(this.requests)
+      console.log(`destinations: ${this.destinations}`)
+      console.log(`watingList: ${this.watingList}`)
+      console.log(this.floor)
+      if (this.destinations.length > 0)  {
+        if (this.floor > this.destinations[0]) {
+          this.floorDown()
+        } else if (this.floor < this.destinations[0]) {
+          this.floorUp()
+        } else {
+          this._passengersLeave(person)
         }
-      })
-      
-      this.requests.forEach(function(person){
-       // console.log(that.floor)
-      //condició para que salga una persona
-        
-      })
-
-      // función para que el elevador suba y baje
-      if (this.floor < this.MAXFLOOR && this.direction === "up") {
-        this.floorUp()
-      } else if (this.floor === this.MINFLOOR) {
-        this.direction = "up"
-        this.floorUp()
-      } else if (this.floor === this.MAXFLOOR) {
-        this.direction = "down"
-        this.floorDown()
-      } else if (this.floor > this.MINFLOOR) {
-        this.floorDown()
+      } else {
+        if (this.floor > this.watingList[0]) {
+          this.floorDown()
+        } else if (this.floor < this.watingList[0]) {
+          this.floorUp()
+        } else {
+          this._passengersEnter(person)
+        }
       }
+
     } else {
-       this.stop()
+      this.stop()
     }
   }
   _passengersEnter(person) { 
-    this.passengers.push(person.destinationFloor)
-    this.watingList.shift()
-    this.requests.push(person)
     this.requests.shift()
+    this.requests.push(person.destinationFloor)
+    this.destinations.push(person.destinationFloor)
+    this.watingList.shift()
     console.log(`${person.name} has enter the elevator`)
   }
   _passengersLeave(person) { 
-    this.passengers.shift()
+    this.destinations.shift()
     this.requests.shift()
     console.log(`${person.name} has left the elevator`)
   }
@@ -83,7 +72,7 @@ class Elevator {
   }
 
   call(person) { 
-    this.requests.push(person)
+    this.requests.push(person.originFloor)
     this.watingList.push(person.originFloor)
   }
 
